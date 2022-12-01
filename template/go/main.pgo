@@ -3,13 +3,13 @@ package main
 import (
  "fmt"
 
- "github.com/very-amused/advent-of-code-2022/go/__DAY__/p1"
- "github.com/very-amused/advent-of-code-2022/__DAY__/p2"
+	__PART_1__
+	__PART_2__
 )
 
 func main() {
- fmt.Println("Part 1:")
- p1.Part1()
- fmt.Println("Part 2:")
- p2.Part2()
+	fmt.Println("Part 1:")
+	p1.Part1()
+	fmt.Println("Part 2:")
+	p2.Part2()
 }

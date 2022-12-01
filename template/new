@@ -1,2 +1,47 @@
 #!/bin/bash
 
+day="$1"
+preproc_flags="-P -C -traditional-cpp -nostdinc"
+
+template_go() {
+  # Check if the template has already been created
+  [ -x go/$1 ] && {
+    echo "go/$1 already exists, refusing to overwrite"
+    return
+  }
+  mkdir -p go/$1/p1
+  mkdir -p go/$1/p2
+
+  # Process main.pgo
+  local base="github.com/very-amused/advent-of-code-2022/go/$1"
+  cpp $preproc_flags \
+    -D__PART_1__=\"$base/p1\" -D__PART_2__=\"$base/p2\" \
+    -o go/$1/main.go template/go/main.pgo
+
+  # Process part.pgo
+  cpp $preproc_flags \
+    -D__PKG__=p1 -D__MAIN__=Part1 \
+    -o go/$1/p1/part1.go template/go/part.pgo
+  cpp $preproc_flags \
+    -D__PKG__=p2 -D__MAIN__=Part2 \
+    -o go/$1/p2/part2.go template/go/part.pgo
+}
+
+template_rust() {
+  [ -x rust/$1 ] && {
+    echo "rust/$1 already exists, refusing to overwrite"
+    return
+  }
+  # Add binary crate to Cargo.toml
+  python template/new-bincrate.py rust/$1
+
+  # Create binary crate
+  cargo new rust/$1
+}
+
+# Create from go template
+echo "Creating $1 Go template"
+template_go "$1"
+
+echo "Creating $1 Rust template"
+template_rust "$1"

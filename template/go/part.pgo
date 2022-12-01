@@ -1,4 +1,4 @@
-package p1
+package __PKG__
 
 import (
 	"bufio"
@@ -31,6 +31,7 @@ func parse() (input Input) {
 
 	for scanner.Scan() {
 		l := scanner.Text()
+		l = l // Placeholder
 	}
 	return input
 }
@@ -40,7 +41,7 @@ func solve(input Input) (solution string) {
 	return solution
 }
 
-func __PART_FN__() {
+func __MAIN__() {
 	// Parse
 	input := parse()
 
