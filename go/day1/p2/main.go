@@ -44,7 +44,7 @@ func solve() (solution string) {
 
 func main() {
 	// Parse
-	fmt.Printf("Parsing input (%s)", inputFile)
+	fmt.Printf("Parsing input (%s)\n", inputFile)
 	parse()
 
 	// Solve
