@@ -53,5 +53,5 @@ pub fn part2() {
   // Report solve time and solution
   let duration = start.elapsed();
   println!("Solved in \x1b[34m{:?}\x1b[0m", duration);
-  println!("Solution: \x1b[32m{}\x1b[0m", solution)
+  println!("Solution: \x1b[32m{}\x1b[0m", solution);
 }

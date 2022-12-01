@@ -1,9 +1,10 @@
-package main
+package p2
 
 import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"time"
 )
@@ -19,41 +20,54 @@ func must[T any](v T, e error) T {
 }
 
 // #region Structs
+type Input []int
 
 // #endregion
 
-// Solve
-func solve() (solution string) {
+// Parse
+func parse() (elves Input) {
 	// Open scanner to read input line by line
 	scanner := bufio.NewScanner(must(os.Open(inputFile)))
 
 	// Parsing state vars go here (if any)
-	max := 0
 	c := 0
 	for scanner.Scan() {
 		l := scanner.Text()
 		if len(l) == 0 {
+			elves = append(elves, c)
 			c = 0
 			continue
 		}
 
 		cals := must(strconv.Atoi(l))
 		c += cals
-		if c > max {
-			max = c
-		}
 	}
-	return strconv.Itoa(max)
+	return elves
 }
 
-func main() {
+// Solve
+func solve(elves Input) (solution string) {
+	// sum top 3
+	sort.Slice(elves, func(i, j int) bool {
+		return elves[i] < elves[j]
+	})
+	sum := 0
+	for _, c := range elves[len(elves)-3:] {
+		sum += c
+	}
+	return strconv.Itoa(sum)
+}
+
+func Part2() {
+	// Parse
+	elves := parse()
+
 	// Solve
-	fmt.Println("Solving")
 	start := time.Now()
-	solution := solve()
+	solution := solve(elves)
 
 	// Report solve time and solution
 	duration := time.Now().Sub(start)
-	fmt.Println("Solved in", duration)
-	fmt.Println("Solution:", solution)
+	fmt.Printf("Solved in \x1b[34m%s\x1b[0m\n", duration)
+	fmt.Printf("Solution: \x1b[32m%s\x1b[0m\n", solution)
 }

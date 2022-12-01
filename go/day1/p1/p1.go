@@ -1,4 +1,4 @@
-package main
+package p1
 
 import (
 	"bufio"
@@ -20,11 +20,12 @@ func must[T any](v T, e error) T {
 }
 
 // #region Structs
+type Input []int
 
 // #endregion
 
 // Parse
-func parse() (elves []int) {
+func parse() (elves Input) {
 	// Open scanner to read input line by line
 	scanner := bufio.NewScanner(must(os.Open(inputFile)))
 
@@ -45,19 +46,15 @@ func parse() (elves []int) {
 }
 
 // Solve
-func solve(elves []int) (solution string) {
-	// sum top 3
+func solve(elves Input) (solution string) {
+	// top elf value
 	sort.Slice(elves, func(i, j int) bool {
 		return elves[i] < elves[j]
 	})
-	sum := 0
-	for _, c := range elves[len(elves)-3:] {
-		sum += c
-	}
-	return strconv.Itoa(sum)
+	return strconv.Itoa(elves[len(elves)-1])
 }
 
-func main() {
+func Part1() {
 	// Parse
 	elves := parse()
 
