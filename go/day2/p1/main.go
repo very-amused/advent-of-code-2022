@@ -50,9 +50,10 @@ func main() {
 	// Solve
 	fmt.Println("Solving")
 	start := time.Now()
-	solve()
+	solution := solve()
 
-	// Report solve time
+	// Report solve time and solution
 	duration := time.Now().Sub(start)
 	fmt.Println("Solved in", duration)
+	fmt.Println("Solution:", solution)
 }
