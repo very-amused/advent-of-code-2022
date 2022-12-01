@@ -4,11 +4,12 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 )
 
-const inputFile = "sample.txt" // Change to input.txt for final solution
-const ignoreEmptyLines = true  // Don't parse blank lines
+const inputFile = "input.txt"  // Change to input.txt for final solution
+const ignoreEmptyLines = false // Don't parse blank lines
 
 func must[T any](v T, e error) T {
 	if e != nil {
@@ -21,32 +22,31 @@ func must[T any](v T, e error) T {
 
 // #endregion
 
-// Parse input
-func parse() {
+// Solve
+func solve() (solution string) {
 	// Open scanner to read input line by line
 	scanner := bufio.NewScanner(must(os.Open(inputFile)))
 
 	// Parsing state vars go here (if any)
-
+	max := 0
+	c := 0
 	for scanner.Scan() {
 		l := scanner.Text()
-		if ignoreEmptyLines && len(l) == 0 {
+		if len(l) == 0 {
+			c = 0
 			continue
 		}
 
+		cals := must(strconv.Atoi(l))
+		c += cals
+		if c > max {
+			max = c
+		}
 	}
-}
-
-// Solve problem
-func solve() (solution string) {
-	return "" // Placeholder
+	return strconv.Itoa(max)
 }
 
 func main() {
-	// Parse
-	fmt.Printf("Parsing input (%s)\n", inputFile)
-	parse()
-
 	// Solve
 	fmt.Println("Solving")
 	start := time.Now()
