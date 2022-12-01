@@ -37,6 +37,15 @@ template_rust() {
 
   # Create binary crate
   cargo new rust/$1
+
+  # Copy main.rs, process parts
+  cp template/rust/main.rs rust/$1/src/
+  cpp $preproc_flags \
+    -D__MAIN__=part1 \
+    -o rust/$1/src/p1.rs template/rust/part.rs
+  cpp $preproc_flags \
+    -D__MAIN__=part2 \
+    -o rust/$1/src/p2.rs template/rust/part.rs
 }
 
 # Create from go template

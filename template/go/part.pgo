@@ -31,7 +31,9 @@ func parse() (input Input) {
 
 	for scanner.Scan() {
 		l := scanner.Text()
-		l = l // Placeholder
+		if len(l) == 0 {
+
+		}
 	}
 	return input
 }
