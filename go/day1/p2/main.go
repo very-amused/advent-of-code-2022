@@ -43,7 +43,7 @@ func solve() (solution string) {
 		c += cals
 	}
 	// sum top 3
-	sort.SliceStable(elves, func(i, j int) bool {
+	sort.Slice(elves, func(i, j int) bool {
 		return elves[i] < elves[j]
 	})
 	sum := 0
