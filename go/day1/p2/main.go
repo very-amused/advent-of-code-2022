@@ -23,13 +23,12 @@ func must[T any](v T, e error) T {
 
 // #endregion
 
-// Solve
-func solve() (solution string) {
+// Parse
+func parse() (elves []int) {
 	// Open scanner to read input line by line
 	scanner := bufio.NewScanner(must(os.Open(inputFile)))
 
 	// Parsing state vars go here (if any)
-	var elves []int
 	c := 0
 	for scanner.Scan() {
 		l := scanner.Text()
@@ -42,6 +41,11 @@ func solve() (solution string) {
 		cals := must(strconv.Atoi(l))
 		c += cals
 	}
+	return elves
+}
+
+// Solve
+func solve(elves []int) (solution string) {
 	// sum top 3
 	sort.Slice(elves, func(i, j int) bool {
 		return elves[i] < elves[j]
@@ -54,13 +58,15 @@ func solve() (solution string) {
 }
 
 func main() {
+	// Parse
+	elves := parse()
+
 	// Solve
-	fmt.Println("Solving")
 	start := time.Now()
-	solution := solve()
+	solution := solve(elves)
 
 	// Report solve time and solution
 	duration := time.Now().Sub(start)
-	fmt.Println("Solved in", duration)
-	fmt.Println("Solution:", solution)
+	fmt.Printf("Solved in \x1b[34m%s\x1b[0m\n", duration)
+	fmt.Printf("Solution: \x1b[32m%s\x1b[0m\n", solution)
 }
