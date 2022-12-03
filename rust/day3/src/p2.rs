@@ -1,4 +1,4 @@
-use std::{io::{BufReader, BufRead}, fs::File, error::Error, time::Instant};
+use std::{io::{BufReader, BufRead}, fs::File, fmt::Display, error::Error, time::Instant};
 
 const INPUT_FILE: &str = "sample.txt"; // Change to input.txt for final solution
 
