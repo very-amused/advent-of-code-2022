@@ -1,6 +1,6 @@
 use std::{io::{BufReader, BufRead}, fs::File, error::Error, time::Instant};
 
-const INPUT_FILE: &str = "sample.txt"; // Change to input.txt for final solution
+const INPUT_FILE: &str = "input.txt"; // Change to input.txt for final solution
 
 // #region Structs
 type Input = Vec<i32>; // Set input type, defaults to Vec<i32>
