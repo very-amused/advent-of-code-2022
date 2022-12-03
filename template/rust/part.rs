@@ -2,6 +2,34 @@ use std::{io::{BufReader, BufRead}, fs::File, error::Error, time::Instant};
 
 const INPUT_FILE: &str = "sample.txt"; // Change to input.txt for final solution
 
+// #region Parse error
+#[derive(Debug)]
+enum ParseError {
+  InvalidInput(String)
+}
+
+impl Display for ParseError {
+  fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    match self {
+      Self::InvalidInput(s) => write!(f, "{}", s)
+    }
+  }
+}
+
+impl Error for ParseError {}
+
+macro_rules! parse_err {
+  ($($arg:tt)*) => {
+    Err(ParseError::InvalidInput(format!($($arg)*)))
+  };
+}
+macro_rules! box_parse_err {
+  ($($arg:tt)*) => {
+    Err(Box::new(ParseError::InvalidInput(format!($($arg)*))))
+  };
+}
+
+// #endregion
 // #region Structs
 type Input = Vec<i32>; // Set input type, defaults to Vec<i32>
 
