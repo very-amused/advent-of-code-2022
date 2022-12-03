@@ -1,7 +1,7 @@
 package main
 
 import (
- "fmt"
+	"fmt"
 
 	"github.com/very-amused/advent-of-code-2022/go/day3/p1"
 	"github.com/very-amused/advent-of-code-2022/go/day3/p2"
