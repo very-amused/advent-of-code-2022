@@ -42,9 +42,11 @@ template_rust() {
   cp template/rust/main.rs rust/$1/src/
   cpp $preproc_flags \
     -D__MAIN__=part1 \
+    -D__DERIVE_DEBUG__='#[derive(Debug)]' \
     -o rust/$1/src/p1.rs template/rust/part.rs
   cpp $preproc_flags \
     -D__MAIN__=part2 \
+    -D__DERIVE_DEBUG__='#[derive(Debug)]' \
     -o rust/$1/src/p2.rs template/rust/part.rs
 }
 

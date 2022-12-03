@@ -3,7 +3,7 @@ use std::{io::{BufReader, BufRead}, fs::File, error::Error, time::Instant};
 const INPUT_FILE: &str = "sample.txt"; // Change to input.txt for final solution
 
 // #region Parse error
-__DERIVE_DEBUG__
+#[derive(Debug)]
 enum ParseError {
   InvalidInput(String)
 }
@@ -57,7 +57,7 @@ fn solve(input: &mut Input) -> String {
   todo!()
 }
 
-pub fn __MAIN__() {
+pub fn part1() {
   // Parse
   let mut input = parse().expect("Failed to parse input");
 
