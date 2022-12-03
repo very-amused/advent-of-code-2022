@@ -31,6 +31,7 @@ macro_rules! box_parse_err {
 }
 
 // #endregion
+
 // #region Structs
 type Input = Vec<i32>; // Set input type, defaults to Vec<i32>
 
@@ -49,12 +50,13 @@ fn parse() -> Result<Input, Box<dyn Error>> {
   }) {
     if l.len() == 0 {
     }
+    todo!();
   }
   Ok(input)
 }
 
 // Solve
-fn solve(input: &mut Input) -> String {
+fn solve(input: &mut Input) -> Result<String, Box<dyn Error>> {
   todo!()
 }
 
@@ -64,7 +66,7 @@ pub fn __MAIN__() {
 
   // Solve
   let start = Instant::now();
-  let solution = solve(&mut input);
+  let solution = solve(&mut input).expect("Failed to solve");
 
   // Report solve time and solution
   let duration = start.elapsed();

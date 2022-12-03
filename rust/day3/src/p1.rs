@@ -18,7 +18,6 @@ impl Display for ParseError {
 
 impl Error for ParseError {}
 
-#[allow(unused_macros)]
 macro_rules! parse_err {
   ($($arg:tt)*) => {
     Err(ParseError::InvalidInput(format!($($arg)*)))
@@ -86,13 +85,13 @@ fn parse() -> Result<Input, Box<dyn Error>> {
 }
 
 // Solve
-fn solve(input: &mut Input) -> String {
+fn solve(input: &mut Input) -> Result<String, Box<dyn Error>> {
   let mut c = 0;
   for sack in input {
-    let item = sack.common_item().expect("Failed to find common item");
-    c += sack.item_priority(item).expect("Failed to get item priority");
+    let item = sack.common_item()?;
+    c += sack.item_priority(item)?;
   }
-  c.to_string()
+  Ok(c.to_string())
 }
 
 pub fn part1() {
@@ -101,7 +100,7 @@ pub fn part1() {
 
   // Solve
   let start = Instant::now();
-  let solution = solve(&mut input);
+  let solution = solve(&mut input).expect("Failed to solve");
 
   // Report solve time and solution
   let duration = start.elapsed();
