@@ -39,14 +39,17 @@ template_rust() {
   cargo new rust/$1
 
   # Copy main.rs, process parts
+  local derive_macros='
+    -D__DERIVE_DEBUG__=#[derive(Debug)]
+    -D__ALLOW_UNUSED_MACROS__=#[allow(unused_macros)]'
   cp template/rust/main.rs rust/$1/src/
   cpp $preproc_flags \
     -D__MAIN__=part1 \
-    -D__DERIVE_DEBUG__='#[derive(Debug)]' \
+    $derive_macros \
     -o rust/$1/src/p1.rs template/rust/part.rs
   cpp $preproc_flags \
     -D__MAIN__=part2 \
-    -D__DERIVE_DEBUG__='#[derive(Debug)]' \
+    $derive_macros \
     -o rust/$1/src/p2.rs template/rust/part.rs
 }
 

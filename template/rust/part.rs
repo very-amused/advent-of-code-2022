@@ -23,6 +23,7 @@ macro_rules! parse_err {
     Err(ParseError::InvalidInput(format!($($arg)*)))
   };
 }
+__ALLOW_UNUSED_MACROS__
 macro_rules! box_parse_err {
   ($($arg:tt)*) => {
     Err(Box::new(ParseError::InvalidInput(format!($($arg)*))))
