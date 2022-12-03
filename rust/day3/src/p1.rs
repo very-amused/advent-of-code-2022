@@ -77,7 +77,7 @@ fn parse() -> Result<Input, Box<dyn Error>> {
     l.unwrap_or(String::new())
   }) {
     if l.len() == 0 {
-      continue
+      continue;
     }
     input.push(Rucksack(l));
   }
