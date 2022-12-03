@@ -1,6 +1,6 @@
 use std::{io::{BufReader, BufRead}, fs::File, fmt::Display, error::Error, time::Instant};
 
-const INPUT_FILE: &str = "sample.txt"; // Change to input.txt for final solution
+const INPUT_FILE: &str = "input.txt"; // Use sample.txt for testing
 
 // #region Parse error
 __DERIVE_DEBUG__

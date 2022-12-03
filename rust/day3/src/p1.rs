@@ -1,6 +1,6 @@
-use std::{io::{BufReader, BufRead}, fs::File, fmt::Display, error::Error, time::Instant};
+use std::{io::{BufReader, BufRead}, fs::File, fmt::Display, error::Error, time::Instant, collections::HashMap};
 
-const INPUT_FILE: &str = "sample.txt"; // Change to input.txt for final solution
+const INPUT_FILE: &str = "input.txt"; // Use sample.txt for testing
 
 // #region Parse error
 #[derive(Debug)]
@@ -18,11 +18,13 @@ impl Display for ParseError {
 
 impl Error for ParseError {}
 
+#[allow(unused_macros)]
 macro_rules! parse_err {
   ($($arg:tt)*) => {
     Err(ParseError::InvalidInput(format!($($arg)*)))
   };
 }
+#[allow(unused_macros)]
 macro_rules! box_parse_err {
   ($($arg:tt)*) => {
     Err(Box::new(ParseError::InvalidInput(format!($($arg)*))))
@@ -31,7 +33,36 @@ macro_rules! box_parse_err {
 
 // #endregion
 // #region Structs
-type Input = Vec<i32>; // Set input type, defaults to Vec<i32>
+type Input = Vec<Rucksack>;
+struct Rucksack (String);
+
+impl Rucksack {
+  fn common_item(&self) -> Result<char, ParseError> {
+    // Split into compartments
+    let c1 = &self.0[..self.0.len()/2];
+    let c2 = &self.0[self.0.len()/2..];
+    let mut item_map: HashMap<char, bool> = HashMap::new();
+    for c in c1.chars() {
+      item_map.insert(c, true);
+    }
+    for c in c2.chars() {
+      if item_map.contains_key(&c) {
+        return Ok(c);
+      }
+    }
+    parse_err!("No common item found: {}", self.0)
+  }
+
+  fn item_priority(&self, item: char) -> Result<u32, ParseError> {
+    if item >= 'a' && item <= 'z' {
+      Ok((item as u32 - 'a' as u32) + 1) // 1-26
+    } else if item >= 'A' && item <= 'Z' {
+      Ok((item as u32 - 'A' as u32) + 27) // 27-52
+    } else {
+      parse_err!("Invalid item char: {}", item)
+    }
+  }
+}
 
 // #endregion
 
@@ -47,14 +78,21 @@ fn parse() -> Result<Input, Box<dyn Error>> {
     l.unwrap_or(String::new())
   }) {
     if l.len() == 0 {
+      continue
     }
+    input.push(Rucksack(l));
   }
   Ok(input)
 }
 
 // Solve
 fn solve(input: &mut Input) -> String {
-  todo!()
+  let mut c = 0;
+  for sack in input {
+    let item = sack.common_item().expect("Failed to find common item");
+    c += sack.item_priority(item).expect("Failed to get item priority");
+  }
+  c.to_string()
 }
 
 pub fn part1() {
