@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -18,12 +20,65 @@ func must[T any](v T, e error) T {
 }
 
 // #region Structs
-type Input any
+type Input []Round
+type Round [2]rune
+
+func (r Round) play() (result int) {
+	var (
+		rock     rune = 'A'
+		paper    rune = 'B'
+		scissors rune = 'C'
+
+		// Desired outcomes
+		loss rune = 'X'
+		draw rune = 'Y'
+		win  rune = 'Z'
+	)
+
+	var lPlay, dPlay, wPlay rune // Potential plays to get the desired outcome
+	switch r[0] {                // Opponent's move
+	case rock: // Rock
+		lPlay = scissors
+		dPlay = rock
+		wPlay = paper
+	case paper: // Paper
+		lPlay = rock
+		dPlay = paper
+		wPlay = scissors
+	case scissors: // Scissors
+		lPlay = paper
+		dPlay = scissors
+		wPlay = rock
+	}
+	switch r[1] { // Desired outcome
+	case loss:
+		result += r.playBonus(lPlay)
+	case draw:
+		result += 3
+		result += r.playBonus(dPlay)
+	case win:
+		result += 6
+		result += r.playBonus(wPlay)
+	}
+	return result
+}
+
+func (r Round) playBonus(play rune) int {
+	switch play {
+	case 'A':
+		return 1
+	case 'B':
+		return 2
+	case 'C':
+		return 3
+	}
+	panic("Invalid play:" + string(play))
+}
 
 // #endregion
 
 // Parse
-func parse() (input Input) {
+func parse() (rounds Input) {
 	// Open scanner to read input line by line
 	scanner := bufio.NewScanner(must(os.Open(inputFile)))
 
@@ -32,24 +87,34 @@ func parse() (input Input) {
 	for scanner.Scan() {
 		l := scanner.Text()
 		if len(l) == 0 {
-
+			continue
 		}
+		parts := strings.Split(l, " ")
+		if len(parts) != 2 {
+			panic("Malformed line: " + l)
+		}
+		round := Round{rune(parts[0][0]), rune(parts[1][0])}
+		rounds = append(rounds, round)
 	}
-	return input
+	return rounds
 }
 
 // Solve
-func solve(input Input) (solution string) {
-	return solution
+func solve(rounds Input) (solution string) {
+	count := 0
+	for _, round := range rounds {
+		count += round.play()
+	}
+	return strconv.Itoa(count)
 }
 
 func Part2() {
 	// Parse
-	input := parse()
+	rounds := parse()
 
 	// Solve
 	start := time.Now()
-	solution := solve(input)
+	solution := solve(rounds)
 
 	// Report solve time and solution
 	duration := time.Now().Sub(start)
