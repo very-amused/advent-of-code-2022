@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -17,39 +19,40 @@ func must[T any](v T, e error) T {
 	return v
 }
 
-// #region Structs
-type Input any
-
-// #endregion
-
-// Parse
-func parse() (input Input) {
+// Parse and solve
+func solve() (solution string) {
 	// Open scanner to read input line by line
 	scanner := bufio.NewScanner(must(os.Open(inputFile)))
 
-	// Parse lines
-
+	const markerLen = 14
+	processed := 0
 	for scanner.Scan() {
 		l := scanner.Text()
 		if len(l) == 0 {
-
+			continue
+		}
+		chars := strings.Split(l, "")
+	outer:
+		for i := 0; (i + markerLen - 1) < len(l); i++ {
+			// Verify group of chars is unique
+			c := make(map[string]bool)
+			for j := 0; j < markerLen; j++ {
+				if c[chars[i+j]] {
+					continue outer
+				}
+				c[chars[i+j]] = true
+			}
+			processed = i + markerLen
+			break
 		}
 	}
-	return input
-}
-
-// Solve
-func solve(input Input) (solution string) {
-	return solution
+	return strconv.Itoa(processed)
 }
 
 func Part2() {
-	// Parse
-	input := parse()
-
 	// Solve
 	start := time.Now()
-	solution := solve(input)
+	solution := solve()
 
 	// Report solve time and solution
 	duration := time.Now().Sub(start)
