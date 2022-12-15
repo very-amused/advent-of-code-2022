@@ -82,9 +82,9 @@ func solve(ops Input) (solution string) {
 		Registers:    make(map[string]int)}
 	cpu.Registers["X"] = 1
 	signalStrengths := 0
-	for cycles := 0; true; cycles++ {
-		if (cycles+1)%40 == 20 {
-			signalStrengths += cpu.Registers["X"] * (cycles + 1)
+	for cycles := 1; true; cycles++ {
+		if cycles%40 == 20 {
+			signalStrengths += cpu.Registers["X"] * cycles
 		}
 		if done := cpu.cycle(); done {
 			break
